@@ -1,0 +1,24 @@
+const C={ck:"#e9c48a",po:"#f0d27a",gr:"#3f8f3a",mu:"#cdb59a",pk:"#d9a07a",rb:"#a5562f",bf:"#7a3b22",en:"#f3ecd2",sh:"#5b3a26",eg:"#f6e7b0",yk:"#f5c242",pi:"#6d7a2a",to:"#d8392b",ca:"#e9762b",cb:"#b7d58a",rp:"#d8392b",ci:"#4f9a3c",cu:"#6b4a22",on:"#efe6c8",cc:"#8cc163",wk:"#2e6b2f",ki:"#d9532f",ga:"#f1ead0"};
+const ILL={"1-1":["pot","#b9772e",["ck","po","gr"]],"1-2":["pot","#b9772e",["ck","mu","gr"]],"1-3":["pot","#b9772e",["pk","po","en"]],"1-4":["pot","#a8652a",["rb","po","en"]],"1-5":["pot","#9a5a26",["bf","po","en"]],"1-6":["pot","#b9772e",["po","mu","en","gr"]],
+"2-1":["soup","#eadbaa",["bf","gr"]],"2-2":["soup","#d9b77a",["ck","sh","eg"]],"2-3":["soup","#7a3517",["bf","gr"]],"2-4":["soup","#c3361f",["pk","gr"]],"2-5":["soup","#e6dcae",["bf","pi","gr"]],"2-6":["soup","#d9b77a",["rb","gr"]],"2-7":["soup","#c3361f",["eg","gr"]],"2-8":["soup","#e0602f",["to","yk","gr"]],"2-9":["soup","#eadbaa",["eg","gr"]],"2-11":["plate","",["eg"]],
+"3-1":["fried","#d8a85a",["yk","ca","cb"]],"3-2":["fried","#c99550",["pk","ca","cb"]],"3-3":["fried","#c99550",["ck","sh","ca"]],"3-4":["fried","#a8642e",["pk","rp","ci"]],"3-5":["fried","#9a3a1f",["bf","ca","cb"]],
+"4-1":["insta","#e0b25a",["to","yk"]],"4-2":["insta","#b8723a",["pk","rp","ci"]],"4-3":["insta","#b8823a",["pk","cu","on"]],"4-4":["insta","#9a3a1f",["bf","ca","cb"]],
+"5-1":["mix","#e8d3a0",["ck","sh","eg","gr"]],"5-2":["mix","#e8d3a0",["pk","rp","gr"]],"5-3":["mix","#e8d3a0",["bf","pi","gr"]],"5-4":["mix","#e8d3a0",["sh","cc"]],"5-5":["mix","#e8d3a0",["rp","ga","gr"]],
+"6-1":["plate","",["bf"]],"6-2":["plate","",["cc"]],"6-4":["plate","",["wk"]],"6-5":["plate","",["ki"]],"7-1":["rice","#c99a5a",["yk","on"]]};
+function rnd(seed){let x=0;for(const ch of seed)x=(x*31+ch.charCodeAt(0))>>>0;return()=>{x=(x*1103515245+12345)>>>0;return x/4294967296}}
+function illo(code,label){
+  const it=ILL[code];if(!it)return "";const [ty,base,tops]=it;const r=rnd(code);
+  let g="";const cx=80,cy=52;
+  const blobs=(rad,n)=>{let o="";tops.forEach(t=>{for(let i=0;i<n;i++){const a=r()*6.28,d=r()*rad;const x=cx+Math.cos(a)*d,y=cy+Math.sin(a)*d*0.75;
+    o+= t==="gr"||t==="ci"||t==="cb"?`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="6" ry="3" fill="${C[t]}" transform="rotate(${(r()*180)|0} ${x.toFixed(1)} ${y.toFixed(1)})"/>`
+       : t==="en"?`<path d="M${x.toFixed(1)} ${y.toFixed(1)} q2 -6 0 -12" stroke="${C[t]}" stroke-width="1.6" fill="none"/>`
+       : `<rect x="${(x-4).toFixed(1)}" y="${(y-3).toFixed(1)}" width="${(6+r()*4).toFixed(1)}" height="${(5+r()*3).toFixed(1)}" rx="2" fill="${C[t]}"/>`}});return o};
+  const noodles=(col,curly)=>{let o="";for(let i=0;i<7;i++){const y=cy-14+i*4.5;o+=`<path d="M${cx-30} ${y} ${curly?"q5 -4 10 0 t10 0 t10 0 t10 0 t10 0 t10 0":"q15 -5 30 0 t30 0"}" stroke="${col}" stroke-width="2" fill="none" stroke-linecap="round"/>`}return o};
+  if(ty==="pot"){g=`<ellipse cx="80" cy="60" rx="54" ry="30" fill="#3b2a20"/><rect x="18" y="44" width="14" height="7" rx="3" fill="#3b2a20"/><rect x="128" y="44" width="14" height="7" rx="3" fill="#3b2a20"/><ellipse cx="80" cy="52" rx="46" ry="24" fill="${base}"/>`+blobs(34,4)}
+  else if(ty==="soup"||ty==="mix"){g=`<ellipse cx="80" cy="56" rx="56" ry="32" fill="#fbfaf5" stroke="#3b5f8f" stroke-width="3"/><ellipse cx="80" cy="52" rx="46" ry="25" fill="${base}"/>`+noodles(ty==="mix"?"#f2dca0":"#f4e2b0",false)+blobs(32,ty==="mix"?3:2)}
+  else if(ty==="fried"||ty==="insta"){g=`<ellipse cx="80" cy="56" rx="60" ry="30" fill="#fbfaf5" stroke="#d9d2c0" stroke-width="2"/>`+noodles(base,ty==="insta")+blobs(30,3)}
+  else if(ty==="rice"){g=`<ellipse cx="80" cy="56" rx="60" ry="30" fill="#fbfaf5" stroke="#d9d2c0" stroke-width="2"/><ellipse cx="80" cy="52" rx="40" ry="20" fill="${base}"/>`;for(let i=0;i<60;i++){const a=r()*6.28,d=r()*36;g+=`<ellipse cx="${(cx+Math.cos(a)*d).toFixed(1)}" cy="${(cy+Math.sin(a)*d*.5).toFixed(1)}" rx="2" ry="1.1" fill="#f3e3c0"/>`}g+=blobs(28,3)}
+  else{g=`<ellipse cx="80" cy="56" rx="50" ry="26" fill="#fbfaf5" stroke="#d9d2c0" stroke-width="2"/>`+blobs(26,6)}
+  return `<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" role="img" aria-label="示意图"><rect width="160" height="100" fill="#efe4c8"/>${g}${label?`<text x="154" y="94" text-anchor="end" font-size="7" font-weight="700" fill="#6f6656" font-family="sans-serif">${label}</text>`:""}</svg>`;
+}
+

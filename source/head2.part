@@ -1,0 +1,172 @@
+<title>Sibisi Ramen Carta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one narrow column like a phone receipt; brand-yellow masthead, sticky category rail, dish rows with photo or code tile. */
+:root{
+  --bg:#fffdf6; --surface:#ffffff; --ink:#26211a; --muted:#6f6656; --line:#ece4cf;
+  --yellow:#f2c230; --yellow-ink:#2b2200; --red:#d42320; --red-soft:#fde7e3; --green:#2f7d3a; --green-soft:#e5f3e4;
+  --chip:#f7f1df;
+  --f-display:"Bagel Fat One","Nunito Sans",system-ui,sans-serif;
+  --f-body:"Nunito Sans","Noto Sans SC",system-ui,-apple-system,"PingFang SC",sans-serif;
+  --f-zh:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#17140f; --surface:#211d16; --ink:#f5efe1; --muted:#b4aa95; --line:#352f24;
+  --yellow:#f2c230; --yellow-ink:#2b2200; --red:#ff5a4d; --red-soft:#3a1d19; --green:#7cc985; --green-soft:#1d2e1e; --chip:#2b261d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17140f; --surface:#211d16; --ink:#f5efe1; --muted:#b4aa95; --line:#352f24;
+  --yellow:#f2c230; --yellow-ink:#2b2200; --red:#ff5a4d; --red-soft:#3a1d19; --green:#7cc985; --green-soft:#1d2e1e; --chip:#2b261d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;margin:0}
+.wrap{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:0 40px}
+.mast{background:var(--yellow);color:var(--yellow-ink);margin-inline:-16px;padding:14px 16px 18px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.logo{width:52px;height:52px;border-radius:14px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.logo img{width:46px}
+.brand h1{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1;margin:0;color:var(--red);letter-spacing:.5px}
+.brand p{margin:3px 0 0;font-size:13px;font-weight:600}
+.lang{display:flex;background:rgba(0,0,0,.08);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;font:800 12px var(--f-body);color:var(--yellow-ink);padding:6px 9px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:#fff;color:var(--red)}
+.lang button:focus-visible,.rail a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+.hero{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.hero img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.hero .body{padding:14px 16px 16px;display:grid;gap:8px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.hero h2{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.05;margin:0;text-wrap:balance}
+.hero h2 small{display:block;font-family:var(--f-zh);font-weight:700;font-size:15px;color:var(--muted);margin-top:4px}
+.hero p{margin:0;color:var(--muted)}
+.from{display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed var(--line);padding-top:10px;font-weight:800}
+.from b{font-size:22px;color:var(--red);font-variant-numeric:tabular-nums}
+
+.steps{margin:16px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;counter-reset:s}
+.steps li{background:var(--chip);border-radius:14px;padding:10px;font-size:12.5px;font-weight:600;counter-increment:s;min-width:0}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-weight:800;font-size:12px;margin-bottom:6px}
+
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);margin:18px -16px 0;padding:10px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line)}
+.rail::-webkit-scrollbar{display:none}
+.rail a{flex:none;text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.rail a.on{background:var(--ink);color:var(--bg)}
+
+section{scroll-margin-top:64px;padding-top:22px}
+.sh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sh h3{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0;line-height:1.1;text-wrap:balance}
+.sh .zh{font-family:var(--f-zh);font-weight:700;color:var(--muted);font-size:14px;flex:none}
+.note{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+.list{display:grid;margin-top:8px}
+.dish{display:grid;grid-template-columns:76px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.thumb{width:76px;height:76px;border-radius:14px;overflow:hidden;background:var(--chip);display:grid;place-items:center;font-weight:800;color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.thumb{position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .badge{position:absolute;left:4px;bottom:4px;background:var(--yellow);color:var(--yellow-ink);font-size:11.5px;font-weight:800;border-radius:6px;padding:1px 5px}
+.thumb .num{font-size:18px;color:var(--ink)}
+.taste{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tt.hotx{color:var(--red);border-color:var(--red-soft);background:var(--red-soft)}
+.first a.c{text-decoration:none}
+.price{text-align:right;line-height:1.5}
+.pz{font-size:11px;font-weight:700;color:var(--muted)}
+.pairl{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:5px 9px;width:fit-content;max-width:100%}
+.pairl b{color:var(--ink);font-weight:800}
+.pairl .plus{color:var(--red);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pair{background:var(--chip);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+.pair dt{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--red)}
+.pair p{margin:0;font-size:14px;line-height:1.55}
+.pair ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:4px;font-size:14px}
+.pair li{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
+.pair li.tot{border-top:1px dashed var(--line);padding-top:6px;font-weight:800;color:var(--red)}
+.pair small{color:var(--muted);font-size:12px}
+.promise{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:grid;gap:8px}
+.promise b{font-size:14px}
+.promise ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px}
+.promise li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:center}
+.promise li span{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--red);color:#fff;font-family:var(--f-zh);font-weight:700;font-size:14px}
+.alab{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--ink);text-transform:uppercase}
+.dish .alg{background:var(--chip);border-radius:10px;padding:5px 9px;width:fit-content;max-width:100%}
+.alg{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px}
+.ai{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--ink)}
+.ai svg{width:22px;height:22px;border-radius:50%;flex:none}
+.dish[data-det]{cursor:pointer}
+.more{display:inline-block;margin-top:8px;font-size:13px;font-weight:800;color:var(--red)}
+.scrim{position:fixed;inset:0;background:rgba(20,15,5,.55);z-index:20}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;max-height:88vh;overflow-y:auto;background:var(--surface);border-radius:22px 22px 0 0;padding:0 0 calc(24px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto}
+.sheet .ph{aspect-ratio:16/10;overflow:hidden}
+.sheet .ph svg,.thumb svg{display:block;width:100%;height:100%}
+.sheet img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.sheet .in{padding:16px;display:grid;gap:12px}
+.sheet h3{margin:0;font-size:22px;line-height:1.2;font-family:var(--f-zh)}
+.sheet .meta{display:flex;justify-content:space-between;align-items:baseline;color:var(--muted);font-weight:700}
+.sheet .meta b{color:var(--red);font-size:20px;font-variant-numeric:tabular-nums}
+.sheet dl{margin:0;display:grid;gap:10px}
+.sheet dt{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--red)}
+.sheet dd{margin:2px 0 0;font-size:14.5px;line-height:1.6}
+.close{position:sticky;top:10px;float:right;margin:10px 10px -46px 0;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:20px;cursor:pointer;z-index:2}
+.tt{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink)}
+.first{margin-top:12px;border:1.5px dashed var(--red);border-radius:16px;padding:12px 14px;display:grid;gap:8px}
+.first b{font-size:14px}
+.first ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:13.5px}
+.first li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:baseline}
+.first .c{font-weight:800;background:var(--yellow);color:var(--yellow-ink);border-radius:6px;padding:0 6px;font-variant-numeric:tabular-nums}
+.dish .t{min-width:0}
+.dish h4{margin:0;font-size:15.5px;font-weight:800;line-height:1.25}
+.dish .zhn{font-family:var(--f-zh);font-size:13px;color:var(--muted)}
+.dish .zhn .code{font-family:var(--f-body);font-weight:800;margin-right:4px}
+.dish p{margin:3px 0 0;font-size:13.5px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tag{font-size:11px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.veg{background:var(--green-soft);color:var(--green)}
+.tag.hot{background:var(--red-soft);color:var(--red)}
+.price{font-weight:800;font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.extras{margin-top:10px;background:var(--chip);border-radius:14px;padding:12px;display:grid;gap:6px}
+.extras b{font-size:13px}
+.extras ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:13.5px}
+.extras li{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.drinks{display:grid;gap:14px;margin-top:8px}
+.drinks h5{margin:0 0 4px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.drinks ul{list-style:none;margin:0;padding:0}
+.drinks li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted var(--line);font-variant-numeric:tabular-nums}
+.foot{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px;font-size:14px}
+.foot .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.foot .phone{font-weight:800;font-size:18px;user-select:all;font-variant-numeric:tabular-nums}
+.copy{border:1px solid var(--line);background:var(--chip);color:var(--ink);font:700 13px var(--f-body);border-radius:999px;padding:6px 12px;cursor:pointer}
+.legend{color:var(--muted);font-size:12.5px}
+@media (max-width:380px){.steps{grid-template-columns:1fr}.dish{grid-template-columns:60px 1fr auto}.thumb{width:60px;height:60px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="logo"><img src="img/logo.jpg" alt="食必思"></div>
+    <div class="brand"><h1>Sibisi Ramen</h1><p id="tagline"></p></div>
+    <div class="lang" role="group" aria-label="Idioma / Language / 语言">
+      <button id="l-es" data-l="es">ES</button><button id="l-en" data-l="en">EN</button><button id="l-zh" data-l="zh">中文</button>
+    </div>
+  </header>
+
+  <article class="hero">
+    <img src="img/1-1.jpg" alt="">
+    <div class="body">
+      <span class="eyebrow" id="h-eye"></span>
+      <h2><span id="h-title"></span><small>黄焖鸡米饭</small></h2>
+      <p id="h-desc"></p>
+      <div class="from"><span id="h-from"></span><b>9,00 €</b></div>
+    </div>
+  </article>
+
+  <ol class="steps" id="steps"></ol>
+  <div class="first"><b id="first-t"></b><ul id="first"></ul></div>
+  <div class="promise" id="promise"></div>
+
+  <nav class="rail" id="rail"></nav>
+  <main id="menu"></main>
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" hidden></div>
+
+  <footer class="foot">
+    <div class="row"><div><div class="legend" id="f-take"></div><div class="phone" id="phone">671 343 226</div></div><button class="copy" id="copy"></button></div>
+    <div>C/ de Julio Antonio, 24 · 46007 València</div>
+    <div class="legend" id="f-all"></div>
+  </footer>
+</div>
+
